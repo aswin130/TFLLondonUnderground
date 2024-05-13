@@ -18,8 +18,8 @@ public class RouteResult
 
     public List<string> Route { get => route; set => route = value; }
     public List<string> Route1 { get => route; set => route = value; }
-    public double TotalJourneyTime { get => totalJourneyTime; set => totalJourneyTime = value; }
-
+    // public double TotalJourneyTime { get => totalJourneyTime; set => totalJourneyTime = value; }
+    public double TotalJourneyTime { get => total}
     public List<string> GetRoute()
     {
         return route;
