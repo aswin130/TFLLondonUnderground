@@ -12,3 +12,5 @@ C:\Users\Aswin\Code\DSA_CW\TFLUnderGround\obj\Debug\net8.0\refint\TFLUnderGround
 C:\Users\Aswin\Code\DSA_CW\TFLUnderGround\obj\Debug\net8.0\TFLUnderGround.pdb
 C:\Users\Aswin\Code\DSA_CW\TFLUnderGround\obj\Debug\net8.0\TFLUnderGround.genruntimeconfig.cache
 C:\Users\Aswin\Code\DSA_CW\TFLUnderGround\obj\Debug\net8.0\ref\TFLUnderGround.dll
+C:\Users\Aswin\Code\DSA_CW\TFLUnderGround\obj\Debug\net8.0\TFLUnderGround.csproj.AssemblyReference.cache
+C:\Users\Aswin\Code\DSA_CW\TFLUnderGround\obj\Debug\net8.0\TFLUnderGround.sourcelink.json

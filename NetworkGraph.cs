@@ -1,6 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
+using QuickGraph;
+
+using QuickGraph.Algorithms.ShortestPath;
+
 
 public class NetworkGraph
 {
@@ -131,97 +133,45 @@ public class NetworkGraph
     public RouteResult FindShortestRoute(string startName, string endName, string startLineDirection)
     {
         if (!stations.ContainsKey(startName) || !stations.ContainsKey(endName))
-            throw new ArgumentException("Start or end station not found in London");
+        throw new ArgumentException("Start or end station not found in London");
 
-        Station start = stations[startName];
-        Station end = stations[endName];
+    var start = stations[startName];
+    var end = stations[endName];
 
-        var settled = new HashSet<Station>();
-        var unsettled = new HashSet<Station>();
-        var distance = new Dictionary<Station, double>();
-        var predecessors = new Dictionary<Station, Station>();
-        var lineDirections = new Dictionary<Station, string>();
+    var graph = new AdjacencyGraph<Station, Edge<Station>>();
 
-        foreach (var station in stations.Values)
-        {
-            distance[station] = double.MaxValue;
-            predecessors[station] = null;
-        }
-
-        distance[start] = 0.0;
-        unsettled.Add(start);
-        lineDirections[start] = startLineDirection;
-
-        while (unsettled.Any())
-        {
-            Station current = GetLowestDistanceStation(unsettled, distance);
-            unsettled.Remove(current);
-
-            foreach (var connection in current.GetConnections(lineDirections[current]))
-            {
-                Station neighbor = connection.Key;
-                double time = connection.Value;
-
-                if (!settled.Contains(neighbor))
-                {
-                    double currentDistance = distance[current];
-                    double newDistance = currentDistance + time;
-
-                    if (lineDirections[current] != null && !lineDirections[current].Equals(lineDirections[current]))
-                        newDistance += 2; // Adding interchange time
-
-                    if (newDistance < distance[neighbor])
-                    {
-                        distance[neighbor] = newDistance;
-                        predecessors[neighbor] = current;
-                        lineDirections[neighbor] = lineDirections[current];
-                        unsettled.Add(neighbor);
-                    }
-                }
-            }
-
-            settled.Add(current);
-        }
-
-        return new RouteResult(GetPath(end, predecessors), distance.GetValueOrDefault(end, -1.0));
+    foreach (var station in stations.Values)
+    {
+        graph.AddVertex(station);
     }
 
-    private Station GetLowestDistanceStation(HashSet<Station> unsettled, Dictionary<Station, double> distance)
+    foreach (var station in stations.Values)
     {
-        Station lowestDistanceStation = null;
-        double lowestDistance = double.MaxValue;
-
-        foreach (var station in unsettled)
+        foreach (var connection in station.GetConnections(startLineDirection))
         {
-            double stationDistance = distance[station];
+            var from = station;
+            var to = connection.Key;
+            var weight = connection.Value;
 
-            if (stationDistance < lowestDistance)
-            {
-                lowestDistance = stationDistance;
-                lowestDistanceStation = station;
-            }
+            graph.AddEdge(new Edge<Station>(from, to));
+            graph.AddEdge(new Edge<Station>(to, from));
         }
-
-        return lowestDistanceStation;
     }
 
-    private List<string> GetPath(Station end, Dictionary<Station, Station> predecessors)
+    var algorithm = new DijkstraShortestPathAlgorithm<Station, Edge<Station>>(graph, edge => 1);
+
+    algorithm.Compute(start);
+
+    var path = algorithm.TryGetPath(end, out var shortestPath) ? shortestPath : new List<Edge<Station>>();
+    var totalDistance = algorithm.Distances[end];
+
+    var route = new List<string>();
+    foreach (var edge in path)
     {
-        var path = new LinkedList<string>();
-        Station step = end;
+        route.Add(edge.Source.Name);
+    }
+    route.Add(end.Name);
 
-        if (predecessors[step] == null)
-            return path.ToList();
-
-        path.AddLast(step.Name);
-
-        while (predecessors[step] != null)
-        {
-            step = predecessors[step];
-            path.AddLast(step.Name);
-        }
-
-        path.Reverse();
-        return path.ToList();
+    return new RouteResult(route, totalDistance);
     }
 }

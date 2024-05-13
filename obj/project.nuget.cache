@@ -1,8 +1,21 @@
 {
   "version": 2,
-  "dgSpecHash": "7A5jyfhP2wIYCIZJyIUtF14sNIi7rKyKgWyn+IMPviDhtjMhjppIDsPvJf7fsG7kaByPMxD9rOkbFoX3tm/hnw==",
+  "dgSpecHash": "Wew1rUP4N2FOdbDRMBSl+9f/M5Rgc7ddd0TdemAxwNLP1tOyIZBBdtUMbLHe2qyD9yj4AGSdrz5MaZltR7nV4A==",
   "success": true,
   "projectFilePath": "C:\\Users\\Aswin\\Code\\DSA_CW\\TFLUnderGround\\TFLUnderGround.csproj",
-  "expectedPackageFiles": [],
-  "logs": []
+  "expectedPackageFiles": [
+    "C:\\Users\\Aswin\\.nuget\\packages\\quickgraph\\3.6.61119.7\\quickgraph.3.6.61119.7.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'QuickGraph 3.6.61119.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "libraryId": "QuickGraph",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }
